@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FuelFlow – Diet Navigator</title>
+
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont;
+  background: #0f172a;
+  color: white;
+  padding: 15px;
+}
+
+.card {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 20px;
+}
+
+h2 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.option {
+  background: #334155;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 8px;
+}
+
+.highlight {
+  border: 2px solid #22c55e;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🍽️ FuelFlow</h1>
+
+<div class="card">
+  <h2>⏰ Current Time</h2>
+  <p id="time"></p>
+</div>
+
+<div class="card">
+  <h2>✅ Last Meal</h2>
+  <p id="lastMeal"></p>
+</div>
+
+<div class="card highlight">
+  <h2>🔥 Next Meal</h2>
+  <p id="nextMeal"></p>
+</div>
+
+<div class="card">
+  <h2>🍴 Meal Options</h2>
+  <div id="options"></div>
+</div>
+
+<script>
+
+function updateTime() {
+  const now = new Date();
+  document.getElementById("time").innerText = now.toLocaleString();
+
+  const hour = now.getHours();
+
+  let meal = "";
+  let options = [];
+
+  if (hour >= 5 && hour < 7) {
+    meal = "Pre-Gym";
+    options = ["Banana", "Almonds + Walnuts", "Black Coffee", "Apple"];
+  }
+  else if (hour >= 7 && hour < 10) {
+    meal = "Breakfast";
+    options = ["Eggs + Toast", "Overnight Oats", "Besan Chilla", "Paneer Sandwich"];
+  }
+  else if (hour >= 10 && hour < 12) {
+    meal = "Mid Snack";
+    options = ["Coffee + Makhana", "Coffee + Peanuts", "Fruit", "Roasted Chana"];
+  }
+  else if (hour >= 12 && hour < 14) {
+    meal = "Fruits";
+    options = ["Apple", "Papaya", "Banana", "Orange + Nuts"];
+  }
+  else if (hour >= 14 && hour < 17) {
+    meal = "Lunch";
+    options = ["Roti + Dal + Sabzi", "Chicken + Roti", "Paneer + Roti", "Rajma + Rice"];
+  }
+  else if (hour >= 17 && hour < 19) {
+    meal = "Evening Snack";
+    options = ["Buttermilk", "Coconut Water", "Peanuts", "Boiled Corn"];
+  }
+  else if (hour >= 19 && hour < 22) {
+    meal = "Dinner";
+    options = ["Roti + Sabzi + Dal", "Paneer/Chicken", "Soup + Protein", "Khichdi"];
+  }
+  else {
+    meal = "Rest / Hydration";
+    options = ["Water", "Light Snack if hungry"];
+  }
+
+  document.getElementById("nextMeal").innerText = meal;
+
+  let last = "";
+  if (hour < 7) last = "Dinner";
+  else if (hour < 10) last = "Pre-Gym";
+  else if (hour < 12) last = "Breakfast";
+  else if (hour < 14) last = "Mid Snack";
+  else if (hour < 17) last = "Fruits";
+  else if (hour < 19) last = "Lunch";
+  else if (hour < 22) last = "Evening Snack";
+  else last = "Dinner";
+
+  document.getElementById("lastMeal").innerText = last;
+
+  const optDiv = document.getElementById("options");
+  optDiv.innerHTML = "";
+
+  options.forEach(o => {
+    const div = document.createElement("div");
+    div.className = "option";
+    div.innerText = o;
+    optDiv.appendChild(div);
+  });
+}
+
+updateTime();
+setInterval(updateTime, 60000);
+
+</script>
+
+</body>
+</html>
